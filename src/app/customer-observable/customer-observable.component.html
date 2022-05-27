@@ -1,0 +1,72 @@
+<div class="container mt-2">
+  <ng-container *ngIf="customers | async as listCustomers; else failureOrLoading ">
+    <div class="card">
+      <div class="card-header">Customers List</div>
+      <div class="card-body">
+        <div *ngIf="searchFormGroup">
+          <!-- {{searchFormGroup.value | json}} -->
+          <form [formGroup]="searchFormGroup" (ngSubmit)="hundelSearchCustomers()">
+            <div class="input-group">
+              <label class="input-group-text">Keyword : </label>
+              <input type="text " formControlName="keyword" class="form-control">
+              <button type="submit" class="btn btn-info">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- <form class="d-flex" [formGroup]="searchFormGroup" (ngSubmit)="hundelSearchCustomers()">
+            <div class="input-group">
+              <input class="form-control me-2" type="search keyword" placeholder="Search" aria-label="Search"
+                formControlName="keyword" class="form-control">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+          </form> -->
+
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of customers | async">
+              <td>{{c.id}}</td>
+              <td>{{c.name}}</td>
+              <td>{{c.email}}</td>
+              <td>
+                <button class="btn btn-outline-danger" (click)="handleDeleteCustomer(c)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-outline-success" (click)="handleModifyCustomer(c)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage; else loading">
+      <div class="text-danger">
+        {{errorMessage}}
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="text-danger">
+        Loading.................
+      </div>
+    </ng-template>
+
+  </ng-template>
+
+
+
+</div>
